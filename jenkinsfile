@@ -37,5 +37,14 @@ pipeline {
                 docker compose up -d'''
             }
         }
+        stage('Upload to Docker Registry') {
+            steps {
+                sh '''
+                docker tag simple-apps-pipeline-apps rickyhendrawan18/simple-apps-pipeline-apps:v1.0
+                docker login -u rickyhendrawan18@gmail.com -p Athen@1812
+                docker push rickyhendrawan18/simple-apps-pipeline-apps:v1.0
+                '''
+            }
+        }
     }
 }
