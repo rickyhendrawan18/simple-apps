@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         GIT_BRANCH      = 'main'
-        GIT_REPO        = 'https://github.com/rickyhendrawan18/simple-apps.git
+        GIT_REPO        = 'https://github.com/rickyhendrawan18/simple-apps.git'
         SONAR_HOST      = 'http://172.23.15.70:9000'
         SONAR_PROJECT   = 'simple-apps'
         SONAR_TOKEN     = 'sqp_0e7e35daf60c4100171fc0f8105a9ecbdb38ba11'
