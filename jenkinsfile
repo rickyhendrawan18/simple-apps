@@ -13,7 +13,7 @@ pipeline {
         DOCKER_HUB_USER = 'rickyhendrawan18'
         VERSION         = 'v1.0'
         USER_DOCKER     = 'rickyhendrawan18@gmail.com'
-        PASS_DOCKER     = 'Athen@18' 
+        PASS_DOCKER     = 'Athen@1812' 
 
     }
 
@@ -55,6 +55,7 @@ pipeline {
             steps {
                 sh '''
                 docker tag "${IMAGE_NAME}" "${DOCKER_HUB_USER}"/"${IMAGE_NAME}":"${VERSION}"
+                docker login -u "${USER_DOCKER}" -p "${PASS_DOCKER}"
                 docker push "${DOCKER_HUB_USER}"/"${IMAGE_NAME}":"${VERSION}"
                 '''
             }
