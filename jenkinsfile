@@ -3,10 +3,24 @@ pipeline {
     
     tools {nodejs "node-18"}
 
+    environment {
+        GIT_BRANCH      = 'main'
+        GIT_REPO        = 'https://github.com/rickyhendrawan18/simple-apps.git
+        SONAR_HOST      = 'http://172.23.15.70:9000'
+        SONAR_PROJECT   = 'simple-apps'
+        SONAR_TOKEN     = 'sqp_0e7e35daf60c4100171fc0f8105a9ecbdb38ba11'
+        IMAGE_NAME      = 'simple-apps-pipeline-apps'
+        DOCKER_HUB_USER = 'rickyhendrawan18'
+        VERSION         = 'v1.0'
+        USER_DOCKER     = 'rickyhendrawan18@gmail.com'
+        PASS_DOCKER     = 'Athen@18' 
+
+    }
+
     stages {
         stage('Checkout SCM') {
             steps {
-                git branch: 'main', url: 'https://github.com/rickyhendrawan18/simple-apps.git'
+                git branch: "${GIT_BRANCH}", url: '${GIT_REPO}'
             }
         }
         stage('Build') {
@@ -22,10 +36,10 @@ pipeline {
         stage('Code Review') {
             steps {
                 sh '''sonar-scanner \
-                -Dsonar.projectKey=simple-apps \
+                -Dsonar.projectKey="${SONAR_PROJECT}" \
                 -Dsonar.sources=. \
-                -Dsonar.host.url=http://172.23.15.70:9000 \
-                -Dsonar.login=sqp_0e7e35daf60c4100171fc0f8105a9ecbdb38ba11'''
+                -Dsonar.host.url="${SONAR_HOST}" \
+                -Dsonar.login="${SONAR_TOKEN}"'''
             }
         }
         stage('Deploy compose') {
@@ -40,9 +54,9 @@ pipeline {
         stage('Upload to Docker Registry') {
             steps {
                 sh '''
-                docker tag simple-apps-pipeline-apps rickyhendrawan18/simple-apps-pipeline-apps:v1.0
-                docker login -u rickyhendrawan18@gmail.com -p Athen@1812
-                docker push rickyhendrawan18/simple-apps-pipeline-apps:v1.0
+                docker tag "${IMAGE_NAME}" "${DOCKER_HUB_USER}"/"${IMAGE_NAME}":"${VERSION}"
+                docker login -u "${USER_DOCKER}" -p "${PASS_DOCKER}"
+                docker push "${DOCKER_HUB_USER}"/"${IMAGE_NAME}":"${VERSION}"
                 '''
             }
         }
