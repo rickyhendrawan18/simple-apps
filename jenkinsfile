@@ -55,7 +55,6 @@ pipeline {
             steps {
                 sh '''
                 docker tag "${IMAGE_NAME}" "${DOCKER_HUB_USER}"/"${IMAGE_NAME}":"${VERSION}"
-                docker login -u "${USER_DOCKER}" -p "${PASS_DOCKER}"
                 docker push "${DOCKER_HUB_USER}"/"${IMAGE_NAME}":"${VERSION}"
                 '''
             }
